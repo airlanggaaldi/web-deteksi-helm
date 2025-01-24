@@ -22,16 +22,17 @@ export default function Home() {
       const formData = new FormData();
       formData.append("image", foto);
 
-      const response = await axios.post('http://localhost:3000/api/predict', formData, {
+      const response = await axios.post('http://localhost:5000/detect', formData, {
         headers: {
           'Content-Type': 'multipart/form-data'
         }
       });
 
-      console.log(response)
+      console.log("Server response:", response.data);
+
       if (response.status == 200) {
-        const image = response.data.image;
-        localStorage.setItem('image', image);
+        const result = `http://localhost:5000${response.data.image}`;
+        localStorage.setItem('image', result);
         router.push("/hasil")
       }
     } catch (err) {
@@ -132,7 +133,7 @@ export default function Home() {
             </div>
           </div>
           <div className="mt-2">
-            <button className="btn btn-success w-52 font-mono font-semibold text-lg" type="submit">Predict</button>
+            <button className="btn btn-success w-52 font-mono font-semibold text-lg" type="submit">Detect</button>
           </div>
         </form>
       </div>
